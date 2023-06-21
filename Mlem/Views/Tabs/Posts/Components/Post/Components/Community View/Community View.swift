@@ -497,6 +497,10 @@ struct CommunityView: View
                 message: message.error
             )
         } catch APIClientError.cancelled {
+            // TODO: handle cancelled requests
+            // loadFeed is currently called from a View Task (triggered upon appear);
+            // this causes the underlying request to be cancelled and recreated in some cases.
+            // For now it's safe to ignore these cancellation errors.
             print("Failed while loading feed (request cancelled)")
         } catch {
             errorAlert = .unexpected
